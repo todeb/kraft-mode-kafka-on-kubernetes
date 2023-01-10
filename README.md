@@ -10,10 +10,11 @@ Resources to accompany the article [Designing and testing a highly available Kaf
 ## Changes
 All changes are in the commit log.
 To summarise:
-+ Bump kafka to version 3.1.0.
++ Bump kafka to version 3.3.1.
 * Externalise CLUSTER_ID env. Set default replication properties.
 * Configure statefulset for improved availability.
 + Introduced podDisruptionBudget.
++ JRE slim image
 
 ## Contents
 Instructions for how to use this repo are found in the tutorial (links above).
