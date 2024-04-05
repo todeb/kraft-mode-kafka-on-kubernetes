@@ -1,6 +1,6 @@
-FROM openjdk:11-jre-slim
+FROM openjdk:22-slim
 
-ENV KAFKA_VERSION=3.3.1
+ENV KAFKA_VERSION=3.7.0
 ENV SCALA_VERSION=2.13
 ENV KAFKA_HOME=/opt/kafka
 ENV PATH=${PATH}:${KAFKA_HOME}/bin
@@ -9,6 +9,7 @@ LABEL name="kafka" version=${KAFKA_VERSION}
 
 RUN  apt-get update ; \
  apt-get upgrade -y ; \
+ apt-get install wget -y ; \
  wget -O /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \
  && tar xfz /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz -C /opt \
  && rm /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \

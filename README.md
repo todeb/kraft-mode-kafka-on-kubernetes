@@ -10,7 +10,7 @@ Resources to accompany the article [Designing and testing a highly available Kaf
 ## Changes
 All changes are in the commit log.
 To summarise:
-+ Bump kafka to version 3.5.0.
++ Bump kafka to version 3.7.0.
 * Externalise CLUSTER_ID env. Set default replication properties.
 * Externalise ADD_LISTENERS , ADD_ADVERTISED_LISTENERS, ADD_LISTENER_SECURITY_PROTOCOL_MAP.
 * Configure statefulset for improved availability.
@@ -30,5 +30,5 @@ To test the container alone, the container requires a CLUSTER_ID environment var
 Here's an example launch from docker.
 
 ```
-$ docker run --rm -e CLUSTER_ID=oh-sxaDRTcyAr6pFRbXyzA --hostname kafka-0 tode/kafka-kraft:3.5.0 kafka-0
+$ docker run --rm -e CLUSTER_ID=oh-sxaDRTcyAr6pFRbXyzA --hostname kafka-0 tode/kafka-kraft:3.7.0 kafka-0
 ```
