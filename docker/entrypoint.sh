@@ -35,6 +35,13 @@ min.insync.replicas=${DEFAULT_MIN_INSYNC_REPLICAS:=2}
 offsets.topic.replication.factor=${DEFAULT_REPLICATION_FACTOR:=3}
 transaction.state.log.replication.factor=${DEFAULT_REPLICATION_FACTOR:=3}
 transaction.state.log.min.isr=${DEFAULT_MIN_INSYNC_REPLICAS:=2}
+log.retention.bytes=${LOG_RETENTION_BYTES:=1048576}
+log.retention.hours=${LOG_RETENTION_HOURS:=168}
+log.retention.ms=${LOG_RETENTION_MS:=-1}
+offsets.retention.minutes=${OFFSETS_RETENTION_MINUTES:=1440}
+auto.create.topics.enable=${AUTO_CREATE_TOPICS_ENABLE:=false}
+delete.topic.enable=${DELETE_TOPIC_ENABLE:=true}
+sasl.enabled.mechanisms=${SASL_ENABLED_MECHANISMS:=PLAIN,SCRAM-SHA-256,SCRAM-SHA-512}
 EOF
 mv server.properties.updated /opt/kafka/config/kraft/server.properties
 
