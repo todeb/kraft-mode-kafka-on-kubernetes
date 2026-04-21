@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: kafka-container
-          image: tode/kafka-kraft:3.7.0
+          image: tode/kafka-kraft:4.2.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9092
