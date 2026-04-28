@@ -1,0 +1,53 @@
+# services needed to connect to kafka externally
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-0-svc
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: kafka
+spec:
+  type: ClusterIP
+  ports:
+    - name: '9990'
+      port: 9990
+      protocol: TCP
+      targetPort: 9990
+  selector:
+    statefulset.kubernetes.io/pod-name: kafka-0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-1-svc
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: kafka
+spec:
+  type: ClusterIP
+  ports:
+    - name: '9991'
+      port: 9991
+      protocol: TCP
+      targetPort: 9991
+  selector:
+    statefulset.kubernetes.io/pod-name: kafka-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-2-svc
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: kafka
+spec:
+  type: ClusterIP
+  ports:
+    - name: '9992'
+      port: 9992
+      protocol: TCP
+      targetPort: 9992
+  selector:
+    statefulset.kubernetes.io/pod-name: kafka-2
