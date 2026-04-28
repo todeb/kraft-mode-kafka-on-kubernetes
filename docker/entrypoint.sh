@@ -17,17 +17,19 @@ CONTROLLER_QUORUM_VOTERS=$(IFS=,; echo "${VOTERS[*]}")
 mkdir -p $SHARE_DIR/$NODE_ID
 
 sed -e "s+^node.id=.*+node.id=$NODE_ID+" \
--e "s+^controller.quorum.voters=.*+controller.quorum.voters=$CONTROLLER_QUORUM_VOTERS+" \
--e "s+^listeners=.*+listeners=$LISTENERS+" \
--e "s+^advertised.listeners=.*+advertised.listeners=$ADVERTISED_LISTENERS+" \
--e "s+^log.dirs=.*+log.dirs=$SHARE_DIR/$NODE_ID+" \
-/etc/kafka/docker/server.properties > server.properties.updated
+    -e "s+^controller.quorum.voters=.*+controller.quorum.voters=$CONTROLLER_QUORUM_VOTERS+" \
+    -e "s+^listeners=.*+listeners=$LISTENERS+" \
+    -e "s+^advertised.listeners=.*+advertised.listeners=$ADVERTISED_LISTENERS+" \
+    -e "s+^log.dirs=.*+log.dirs=$SHARE_DIR/$NODE_ID+" \
+    /etc/kafka/docker/server.properties > /tmp/server.properties
 
 if [ -n "$ADD_LISTENER_SECURITY_PROTOCOL_MAP" ]; then
-  sed -Ei "s/(^listener\.security\.protocol\.map=.*)/\1,$ADD_LISTENER_SECURITY_PROTOCOL_MAP/" server.properties.updated
+    sed -Ei "s/(^listener\.security\.protocol\.map=.*)/\1,$ADD_LISTENER_SECURITY_PROTOCOL_MAP/" /tmp/server.properties
 fi
 
-cat <<EOF >> server.properties.updated
+sed -i "s/\$NODE_ID/$NODE_ID/g" /tmp/server.properties
+
+cat <<EOF >> /tmp/server.properties
 default.replication.factor=${DEFAULT_REPLICATION_FACTOR:=3}
 min.insync.replicas=${DEFAULT_MIN_INSYNC_REPLICAS:=2}
 offsets.topic.replication.factor=${DEFAULT_REPLICATION_FACTOR:=3}
@@ -42,7 +44,6 @@ delete.topic.enable=${DELETE_TOPIC_ENABLE:=true}
 sasl.enabled.mechanisms=${SASL_ENABLED_MECHANISMS:=PLAIN,SCRAM-SHA-256,SCRAM-SHA-512}
 EOF
 
-mv server.properties.updated /etc/kafka/docker/server.properties
+kafka-storage.sh format --ignore-formatted -t $CLUSTER_ID -c /tmp/server.properties
 
-kafka-storage.sh format -t $CLUSTER_ID -c /etc/kafka/docker/server.properties
-exec kafka-server-start.sh /etc/kafka/docker/server.properties
+exec kafka-server-start.sh /tmp/server.properties
